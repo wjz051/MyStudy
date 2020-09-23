@@ -45,3 +45,4 @@
 *.user
 bin
 temp
+*.vs/

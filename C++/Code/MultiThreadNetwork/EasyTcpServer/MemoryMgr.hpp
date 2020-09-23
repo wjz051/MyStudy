@@ -73,7 +73,7 @@ public:
 			pReturn->nRef = 1;
 			pReturn->pAlloc = nullptr;
 			pReturn->pNext = nullptr;
-			printf("allocMem: %llx, id=%d, size=%d\n", pReturn, pReturn->nID, nSize);
+			//printf("allocMem: %llx, id=%d, size=%d\n", pReturn, pReturn->nID, nSize);
 		}
 		else {
 			pReturn = _pHeader;

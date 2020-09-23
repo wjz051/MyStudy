@@ -5,10 +5,14 @@
 #include<mutex>//锁
 
 #ifdef _DEBUG
-#include<stdio.h>
-	#define xPrintf(...) printf(__VA_ARGS__)
+	#ifndef xPrintf
+		#include<stdio.h>
+		#define xPrintf(...) printf(__VA_ARGS__)
+	#endif
 #else
-	#define xPrintf(...)
+	#ifndef xPrintf
+		#define xPrintf(...)
+	#endif
 #endif // _DEBUG
 
 
@@ -65,7 +69,6 @@ public:
 		}
 		
 		MemoryBlock* pReturn = nullptr;
-		//_pHeader==nullptr说明当前内存池已满
 		if (nullptr == _pHeader)
 		{
 			pReturn = (MemoryBlock*)malloc(nSize+sizeof(MemoryBlock));
@@ -82,14 +85,12 @@ public:
 			pReturn->nRef = 1;
 		}
 		xPrintf("allocMem: %llx, id=%d, size=%d\n", pReturn, pReturn->nID, nSize);
-		//返回可用内存块首地址
 		return ((char*)pReturn + sizeof(MemoryBlock));
 	}
 
 	//释放内存
 	void freeMemory(void* pMem)
 	{
-		//找到当前内存的内存块地址
 		MemoryBlock* pBlock = (MemoryBlock*)( (char*)pMem  - sizeof(MemoryBlock));
 		assert(1 == pBlock->nRef);
 		if (pBlock->bPool)

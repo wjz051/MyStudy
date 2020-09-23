@@ -1,7 +1,6 @@
 #ifndef _EasyTcpServer_hpp_
 #define _EasyTcpServer_hpp_
 
-//4个线程10000连接，每个线程连接2500。
 #ifdef _WIN32
 	#define FD_SETSIZE      2506
 	#define WIN32_LEAN_AND_MEAN
@@ -30,20 +29,7 @@
 #include"MessageHeader.hpp"
 #include"CELLTimestamp.hpp"
 #include"CELLTask.hpp"
-
-/*select会循环遍历它所监测的fd_set内的所有文件描述符对应的驱动程序的poll函数。
-驱动程序提供的poll函数首先会将调用select的用户进程插入到该设备驱动对应资源的等待队列(如读/写等待队列)，
-然后返回一个bitmask告诉select当前资源哪些可用。*/
-/*由于该进程是阻塞在所有监测的文件对应的设备等待队列上的，
-因此在timeout时间内，只要任意个设备变为可操作，都会立即唤醒该进程，从而继续往下执行。
-这就实现了select的当有一个文件描述符可操作时就立即唤醒执行的基本原理。*/
-
-/*fd_set set;
-FD_ZERO(&set); /*将set清零使集合中不含任何fd
-FD_SET(fd, &set); /*将fd加入set集合
-FD_CLR(fd, &set); /*将fd从set集合中清除
-FD_ISSET(fd, &set); /*在调用select()函数后，用FD_ISSET来检测fd是否在set集合中，当检测到fd在set中则返回真，否则，返回假（0）
-以上式子中的fd为socket句柄。*/
+#include"CELLObjectPool.hpp"
 
 //缓冲区最小单元大小
 #ifndef RECV_BUFF_SZIE
@@ -55,7 +41,7 @@ typedef std::shared_ptr<DataHeader> DataHeaderPtr;
 typedef std::shared_ptr<LoginResult> LoginResultPtr;
 
 //客户端数据类型
-class ClientSocket 
+class ClientSocket :public ObjectPoolBase<ClientSocket,10000>
 {
 public:
 	ClientSocket(SOCKET sockfd = INVALID_SOCKET)
@@ -88,7 +74,7 @@ public:
 	}
 
 	//发送数据
-	int SendData(DataHeaderPtr header)
+	int SendData(DataHeaderPtr& header)
 	{
 		int ret = SOCKET_ERROR;
 		//要发送的数据长度
@@ -150,13 +136,13 @@ class INetEvent
 public:
 	//纯虚函数
 	//客户端加入事件
-	virtual void OnNetJoin(ClientSocketPtr pClient) = 0;
+	virtual void OnNetJoin(ClientSocketPtr& pClient) = 0;
 	//客户端离开事件
-	virtual void OnNetLeave(ClientSocketPtr pClient) = 0;
+	virtual void OnNetLeave(ClientSocketPtr& pClient) = 0;
 	//客户端消息事件
-	virtual void OnNetMsg(CellServer* pCellServer, ClientSocketPtr pClient, DataHeader* header) = 0;
+	virtual void OnNetMsg(CellServer* pCellServer, ClientSocketPtr& pClient, DataHeader* header) = 0;
 	//recv事件
-	virtual void OnNetRecv(ClientSocketPtr pClient) = 0;
+	virtual void OnNetRecv(ClientSocketPtr& pClient) = 0;
 private:
 
 };
@@ -167,7 +153,7 @@ class CellS2CTask:public CellTask
 	ClientSocketPtr _pClient;
 	DataHeaderPtr _pHeader;
 public:
-	CellS2CTask(ClientSocketPtr pClient, DataHeaderPtr header)
+	CellS2CTask(ClientSocketPtr& pClient, DataHeaderPtr& header)
 	{
 		_pClient = pClient;
 		_pHeader = header;
@@ -340,7 +326,7 @@ public:
 		}
 	}
 	//接收数据 处理粘包 拆分包
-	int RecvData(ClientSocketPtr pClient)
+	int RecvData(ClientSocketPtr& pClient)
 	{
 
 		//接收客户端数据
@@ -384,12 +370,12 @@ public:
 	}
 
 	//响应网络消息
-	virtual void OnNetMsg(ClientSocketPtr pClient, DataHeader* header)
+	virtual void OnNetMsg(ClientSocketPtr& pClient, DataHeader* header)
 	{
 		_pNetEvent->OnNetMsg(this, pClient, header);
 	}
 
-	void addClient(ClientSocketPtr pClient)
+	void addClient(ClientSocketPtr& pClient)
 	{
 		std::lock_guard<std::mutex> lock(_mutex);
 		//_mutex.lock();
@@ -408,7 +394,7 @@ public:
 		return _clients.size() + _clientsBuff.size();
 	}
 
-	void addSendTask(ClientSocketPtr pClient, DataHeaderPtr header)
+	void addSendTask(ClientSocketPtr& pClient, DataHeaderPtr header)
 	{
 		auto task = std::make_shared<CellS2CTask>(pClient, header);
 		_taskServer.addTask((CellTaskPtr)task);
@@ -552,14 +538,15 @@ public:
 		else
 		{
 			//将新客户端分配给客户数量最少的cellServer
-			
-			addClientToCellServer(std::make_shared<ClientSocket>(cSock));
+			ClientSocketPtr c(new ClientSocket(cSock));
+			//addClientToCellServer(std::make_shared<ClientSocket>(cSock));
+			addClientToCellServer(c);
 			//获取IP地址 inet_ntoa(clientAddr.sin_addr)
 		}
 		return cSock;
 	}
 	
-	void addClientToCellServer(ClientSocketPtr pClient)
+	void addClientToCellServer(ClientSocketPtr& pClient)
 	{
 		//查找客户数量最少的CellServer消息处理对象
 		auto pMinServer = _cellServers[0];
@@ -655,26 +642,26 @@ public:
 		}
 	}
 	//只会被一个线程触发 安全
-	virtual void OnNetJoin(ClientSocketPtr pClient)
+	virtual void OnNetJoin(ClientSocketPtr& pClient)
 	{
 		_clientCount++;
 		//printf("client<%d> join\n", pClient->sockfd());
 	}
 	//cellServer 4 多个线程触发 不安全
 	//如果只开启1个cellServer就是安全的
-	virtual void OnNetLeave(ClientSocketPtr pClient)
+	virtual void OnNetLeave(ClientSocketPtr& pClient)
 	{
 		_clientCount--;
 		//printf("client<%d> leave\n", pClient->sockfd());
 	}
 	//cellServer 4 多个线程触发 不安全
 	//如果只开启1个cellServer就是安全的
-	virtual void OnNetMsg(CellServer* pCellServer, ClientSocketPtr pClient, DataHeader* header)
+	virtual void OnNetMsg(CellServer* pCellServer, ClientSocketPtr& pClient, DataHeader* header)
 	{
 		_msgCount++;
 	}
 
-	virtual void OnNetRecv(ClientSocketPtr pClient)
+	virtual void OnNetRecv(ClientSocketPtr& pClient)
 	{
 		_recvCount++;
 		//printf("client<%d> leave\n", pClient->sockfd());
