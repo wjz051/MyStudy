@@ -13,11 +13,14 @@
 /*
 TcpServer服务端
 
-集成INetEvent接口,重写OnNetJoin/OnNetLeave/OnNetMsg/OnNetRecv函数;
+继承INetEvent接口,重写OnNetJoin/OnNetLeave/OnNetMsg/OnNetRecv函数;
 
-1.含有_cellServers消息处理对象集合(多个消息处理对象),每个消息对象可以处理多个客户端请求数据;
-
-
+1.InitSocket()初始化网络SOCKET,Bind(ip,port)绑定ip和端口,Listen(n)监听端口;
+2.Start(nCellServerCount)启动服务端程序,新建多个CellServer消息处理对象,每个CellServer消息对象可以处理多个客户端请求数据,
+  注册网络事件接受对象TcpServer,启动消息处理线程;
+3.运行OnRun()处理网络消息,通过Accept()接受客户端连接请求消息;
+4.addClientToCellServer(CellClient*)将新客户端分配给客户数量最少的cellServer,加入客户端成功_clientCount+1,OnNetJoin(pClient);
+5.关闭socket套接字Close()
 
 */
 
