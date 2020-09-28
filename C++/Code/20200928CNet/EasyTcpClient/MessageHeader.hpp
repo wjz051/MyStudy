@@ -1,19 +1,6 @@
 #ifndef _MessageHeader_hpp_
 #define _MessageHeader_hpp_
 
-/*
-消息头
-
-DataHeader数据头---cmd,len
-
-DataHeader--Login登陆
-DataHeader--LoginResult登陆结果
-DataHeader--Logout退出
-DataHeader--LogoutResult退出结果
-DataHeader--NewUserJoin新用户登陆
-
-*/
-
 enum CMD
 {
 	CMD_LOGIN,
@@ -24,7 +11,6 @@ enum CMD
 	CMD_ERROR
 };
 
-/*数据头*/
 struct DataHeader
 {
 	DataHeader()

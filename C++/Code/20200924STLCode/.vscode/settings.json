@@ -1,0 +1,13 @@
+{
+    "C_Cpp.errorSquiggles": "Disabled",
+    "files.associations": {
+        "list": "cpp",
+        "xtree": "cpp",
+        "set": "cpp",
+        "xstddef": "cpp",
+        "map": "cpp",
+        "deque": "cpp",
+        "xmemory0": "cpp"
+    },
+    "python.pythonPath": "C:\\Python38\\python.exe"
+}

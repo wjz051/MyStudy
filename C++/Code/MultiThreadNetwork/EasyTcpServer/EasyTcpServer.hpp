@@ -40,6 +40,17 @@
 typedef std::shared_ptr<DataHeader> DataHeaderPtr;
 typedef std::shared_ptr<LoginResult> LoginResultPtr;
 
+/*
+TcpServer服务端
+
+集成INetEvent接口,重写OnNetJoin/OnNetLeave/OnNetMsg/OnNetRecv函数;
+
+1.含有_cellServers消息处理对象集合(多个消息处理对象),每个消息对象可以处理多个客户端请求数据;
+
+
+
+*/
+
 //客户端数据类型
 class ClientSocket :public ObjectPoolBase<ClientSocket,10000>
 {

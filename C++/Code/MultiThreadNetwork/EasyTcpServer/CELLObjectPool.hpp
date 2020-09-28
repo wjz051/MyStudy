@@ -14,7 +14,19 @@
 		#define xPrintf(...)
 	#endif
 #endif // _DEBUG
+/*
+对象池
+CELLObjectPool<Type,Size>
 
+1.初始化对象池initPool()
+2.分配内存allocObjMemory(size)
+3.释放内存freeObjMemory(pMem)
+
+ObjectPoolBase--格式化处理对象池
+1.重载new和delete函数
+2.用createObject()模版函数封装new操作
+3.destroyObject(obj)封装delete操作
+*/
 template<class Type, size_t nPoolSzie>
 class CELLObjectPool
 {
@@ -116,11 +128,11 @@ private:
 		//遍历内存块进行初始化
 		NodeHeader* pTemp1 = _pHeader;
 
-		for (size_t n = 1; n < nPoolSzie; n++)
+		for (size_t i = 1; i < nPoolSzie; i++)
 		{
-			NodeHeader* pTemp2 = (NodeHeader*)(_pBuf + (n* realSzie));
+			NodeHeader* pTemp2 = (NodeHeader*)(_pBuf + (i* realSzie));
 			pTemp2->bPool = true;
-			pTemp2->nID = n;
+			pTemp2->nID = i;
 			pTemp2->nRef = 0;
 			pTemp2->pNext = nullptr;
 			pTemp1->pNext = pTemp2;
@@ -128,7 +140,7 @@ private:
 		}
 	}
 private:
-	//
+	//对象池指针
 	NodeHeader* _pHeader;
 	//对象池内存缓存区地址
 	char* _pBuf;
