@@ -18,8 +18,7 @@ void cmdThread()
 			printf("退出cmdThread线程\n");
 			break;
 		}
-		else 
-		{
+		else {
 			printf("不支持的命令。\n");
 		}
 	}
@@ -31,9 +30,19 @@ const int cCount = 1000;
 const int tCount = 4;
 //客户端数组
 EasyTcpClient* client[cCount];
-
 std::atomic_int sendCount = 0;
 std::atomic_int readyCount = 0;
+
+void recvThread(int begin, int end)
+{
+	while (g_bRun)
+	{
+		for (int n = begin; n < end; n++)
+		{
+			client[n]->OnRun();
+		}
+	}
+}
 
 void sendThread(int id)
 {
@@ -53,7 +62,7 @@ void sendThread(int id)
 		//win7 "192.168.1.114" i7 2670qm
 		//127.0.0.1
 		//39.108.13.69 
-		client[n]->Connect("192.168.1.110", 4567);
+		client[n]->Connect("192.168.1.102", 4567);
 	}
 
 	printf("thread<%d>,Connect<begin=%d, end=%d>\n", id, begin, end);
@@ -64,7 +73,10 @@ void sendThread(int id)
 		std::chrono::milliseconds t(10);
 		std::this_thread::sleep_for(t);
 	}
-
+	//
+	std::thread t1(recvThread, begin, end);
+	t1.detach();
+	//
 	Login login[10];
 	for (int n = 0; n < 10; n++)
 	{
@@ -80,8 +92,9 @@ void sendThread(int id)
 			{
 				sendCount++;
 			}
-			client[n]->OnRun();
 		}
+		//std::chrono::milliseconds t(10);
+		//std::this_thread::sleep_for(t);
 	}
 
 	for (int n = begin; n < end; n++)
