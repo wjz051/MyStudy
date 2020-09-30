@@ -4,31 +4,27 @@
 #include"CELL.hpp"
 #include"INetEvent.hpp"
 #include"CELLClient.hpp"
+#include"CELLTask.hpp"
 
 #include<vector>
 #include<map>
 
-//网络消息发送任务
-class CellSendMsg2ClientTask :public CellTask
-{
-	CellClient* _pClient;
-	netmsg_DataHeader* _pHeader;
-public:
-	CellSendMsg2ClientTask(CellClient* pClient, netmsg_DataHeader* header)
-	{
-		_pClient = pClient;
-		_pHeader = header;
-	}
 
-	//执行任务
-	void doTask()
-	{
-		_pClient->SendData(_pHeader);
-		delete _pHeader;
-	}
-};
+/*
+网络消息接收处理服务类
 
-//网络消息接收处理服务类
+1.初始化获取服务器SOCKET,主要用于,当子服务器关闭的时候,释放套接字SOCKET(感觉存在问题,多个子服务器会释放多次,而且感觉也不应该在这里释放);
+2.设置消息处理接口INetEvent,当需要处理数据的时候通过接口调用虚函数OnNetJoin/OnNetLeave/OnNetMsg/OnNetRecv;
+3.在线程中运行服务OnRun(),每一个子服务器都含有一个任务处理服务线程CellTaskServer;
+4.开始的时候std::map<SOCKET, CellClient*>集合为空,当TcpServer接受到客户端连接的时候,调用addClient(CellClient*),加入客户端才开始select获取消息
+5.如果有消息,调用RecvData(CellClient*)接收数据通过_pNetEvent->OnNetRecv发送接收到数据信号,处理沾包,通过_pNetEvent->OnNetMsg处理消息;
+6.TcpServer服务器按照消息分类,给子服务器分配任务,子服务器通过CellTaskServer服务,处理任务;
+7.如果接受到客户端退出消息,则调用_pNetEvent->OnNetLeave函数,并且删除客户端信息;
+
+*/
+
+
+
 class CellServer
 {
 public:

@@ -11,7 +11,7 @@
 #include<atomic>
 
 /*
-TcpServer服务端
+TcpServer服务端---含有多台子服务器CellServer---每台服务器可以处理多个客户端CellClient连接
 
 继承INetEvent接口,重写OnNetJoin/OnNetLeave/OnNetMsg/OnNetRecv函数;
 
@@ -269,7 +269,8 @@ public:
 	{
 		_msgCount++;
 	}
-
+	//cellServer 4 多个线程触发 不安全
+	//如果只开启1个cellServer就是安全的
 	virtual void OnNetRecv(CellClient* pClient)
 	{
 		_recvCount++;

@@ -33,6 +33,26 @@ private:
 
 };
 
+//网络消息发送任务
+class CellSendMsg2ClientTask :public CellTask
+{
+	CellClient* _pClient;
+	netmsg_DataHeader* _pHeader;
+public:
+	CellSendMsg2ClientTask(CellClient* pClient, netmsg_DataHeader* header)
+	{
+		_pClient = pClient;
+		_pHeader = header;
+	}
+
+	//执行任务
+	void doTask()
+	{
+		_pClient->SendData(_pHeader);
+		delete _pHeader;
+	}
+};
+
 //执行任务的服务类型
 class CellTaskServer 
 {
