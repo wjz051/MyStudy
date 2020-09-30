@@ -15,6 +15,20 @@
 	#endif
 #endif // _DEBUG
 
+/*
+对象池
+CELLObjectPool<Type,Size>
+
+1.初始化对象池initPool()
+2.分配内存allocObjMemory(size)
+3.释放内存freeObjMemory(pMem)
+
+ObjectPoolBase--格式化处理对象池
+1.重载new和delete函数
+2.用createObject()模版函数封装new操作
+3.destroyObject(obj)封装delete操作
+*/
+
 template<class Type, size_t nPoolSzie>
 class CELLObjectPool
 {

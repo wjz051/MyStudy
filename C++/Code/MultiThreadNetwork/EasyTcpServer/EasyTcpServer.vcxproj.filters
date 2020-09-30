@@ -18,9 +18,6 @@
     <ClCompile Include="server.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Alloctor.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MessageHeader.hpp">
@@ -35,13 +32,16 @@
     <ClInclude Include="CELLTask.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CELLObjectPool.hpp">
+    <ClInclude Include="CELLClient.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Alloctor.h">
+    <ClInclude Include="CELL.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryMgr.hpp">
+    <ClInclude Include="INetEvent.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CELLServer.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
