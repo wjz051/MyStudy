@@ -120,6 +120,7 @@
   <ItemGroup>
     <ClInclude Include="CELL.hpp" />
     <ClInclude Include="CELLClient.hpp" />
+    <ClInclude Include="CELLSemaphore.hpp" />
     <ClInclude Include="CELLServer.hpp" />
     <ClInclude Include="CELLTask.hpp" />
     <ClInclude Include="CELLTimestamp.hpp" />
