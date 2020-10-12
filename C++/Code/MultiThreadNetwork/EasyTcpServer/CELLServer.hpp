@@ -257,8 +257,10 @@ public:
 
 	void addSendTask(CellClient* pClient, netmsg_DataHeader* header)
 	{
-		CellSendMsg2ClientTask* task = new CellSendMsg2ClientTask(pClient, header);
-		_taskServer.addTask(task);
+		_taskServer.addTask([pClient,header]() {
+			pClient->SendData(header);
+			delete header;
+		});
 	}
 private:
 	SOCKET _sock;

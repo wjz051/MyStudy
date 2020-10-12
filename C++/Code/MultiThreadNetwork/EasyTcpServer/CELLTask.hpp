@@ -4,68 +4,28 @@
 #include<thread>
 #include<mutex>
 #include<list>
+#include<functional>
 
 /*
-任务类---doTask处理任务
 任务服务管理任务---addTask(task)增加任务,OnRun()调用任务类处理任务
 */
-
-//任务类型-基类
-class CellTask
-{
-public:
-	CellTask()
-	{
-
-	}
-
-	//虚析构
-	virtual ~CellTask()
-	{
-
-	}
-	//执行任务
-	virtual void doTask()
-	{
-
-	}
-private:
-
-};
-
-//网络消息发送任务
-class CellSendMsg2ClientTask :public CellTask
-{
-	CellClient* _pClient;
-	netmsg_DataHeader* _pHeader;
-public:
-	CellSendMsg2ClientTask(CellClient* pClient, netmsg_DataHeader* header)
-	{
-		_pClient = pClient;
-		_pHeader = header;
-	}
-
-	//执行任务
-	void doTask()
-	{
-		_pClient->SendData(_pHeader);
-		delete _pHeader;
-	}
-};
 
 //执行任务的服务类型
 class CellTaskServer 
 {
+	//function替代函数指针
+	typedef std::function<void()> CellTask;
+
 private:
 	//任务数据
-	std::list<CellTask*> _tasks;
+	std::list<CellTask> _tasks;
 	//任务数据缓冲区
-	std::list<CellTask*> _tasksBuf;
+	std::list<CellTask> _tasksBuf;
 	//改变数据缓冲区时需要加锁
 	std::mutex _mutex;
 public:
 	//添加任务
-	void addTask(CellTask* task)
+	void addTask(CellTask task)
 	{
 		std::lock_guard<std::mutex> lock(_mutex);
 		_tasksBuf.push_back(task);
@@ -103,8 +63,7 @@ protected:
 			//处理任务
 			for (auto pTask : _tasks)
 			{
-				pTask->doTask();
-				delete pTask;
+				pTask();
 			}
 			//清空任务
 			_tasks.clear();
