@@ -1,16 +1,16 @@
-#ifndef _MessageHeader_hpp_
+ï»¿#ifndef _MessageHeader_hpp_
 #define _MessageHeader_hpp_
 
 /*
-ÏûÏ¢Í·
+æ¶ˆæ¯å¤´
 
-netmsg_DataHeaderÊı¾İÍ·---cmd,len
+netmsg_DataHeaderæ•°æ®å¤´---cmd,len
 
-netmsg_DataHeader--netmsg_LoginµÇÂ½
-netmsg_DataHeader--netmsg_LoginRµÇÂ½½á¹û
-netmsg_DataHeader--netmsg_LogoutÍË³ö
-netmsg_DataHeader--netmsg_LogoutRÍË³ö½á¹û
-netmsg_DataHeader--netmsg_NewUserJoinĞÂÓÃ»§µÇÂ½
+netmsg_DataHeader--netmsg_Loginç™»é™†
+netmsg_DataHeader--netmsg_LoginRç™»é™†ç»“æœ
+netmsg_DataHeader--netmsg_Logouté€€å‡º
+netmsg_DataHeader--netmsg_LogoutRé€€å‡ºç»“æœ
+netmsg_DataHeader--netmsg_NewUserJoinæ–°ç”¨æˆ·ç™»é™†
 
 */
 
@@ -21,9 +21,9 @@ enum CMD
 	CMD_LOGOUT,
 	CMD_LOGOUT_RESULT,
 	CMD_NEW_USER_JOIN,
-	CMD_ERROR,
 	CMD_C2S_HEART,
-	CMD_S2C_HEART
+	CMD_S2C_HEART,
+	CMD_ERROR
 };
 
 struct netmsg_DataHeader
@@ -33,8 +33,8 @@ struct netmsg_DataHeader
 		dataLength = sizeof(netmsg_DataHeader);
 		cmd = CMD_ERROR;
 	}
-	short dataLength;
-	short cmd;
+	unsigned short dataLength;
+	unsigned short cmd;
 };
 
 //DataPackage

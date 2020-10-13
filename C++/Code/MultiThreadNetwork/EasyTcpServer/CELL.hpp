@@ -1,4 +1,4 @@
-#ifndef _CELL_HPP_
+ï»¿#ifndef _CELL_HPP_
 #define _CELL_HPP_
 
 //SOCKET
@@ -13,6 +13,7 @@
 #include<unistd.h> //uni std
 #include<arpa/inet.h>
 #include<string.h>
+#include<signal.h>
 
 #define SOCKET int
 #define INVALID_SOCKET  (SOCKET)(~0)
@@ -22,13 +23,15 @@
 #include"MessageHeader.hpp"
 #include"CELLTimestamp.hpp"
 #include"CELLTask.hpp"
+#include"CELLLog.hpp"
+
 //
 #include<stdio.h>
 
-//»º³åÇø×îĞ¡µ¥Ôª´óĞ¡
+//ç¼“å†²åŒºæœ€å°å•å…ƒå¤§å°
 #ifndef RECV_BUFF_SZIE
-#define RECV_BUFF_SZIE 10240
-#define SEND_BUFF_SZIE RECV_BUFF_SZIE
+#define RECV_BUFF_SZIE 8192
+#define SEND_BUFF_SZIE 10240
 #endif // !RECV_BUFF_SZIE
 
 #endif // !_CELL_HPP_

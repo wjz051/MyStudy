@@ -1,68 +1,59 @@
-#ifndef _CELL_TASK_H_
+ï»¿#ifndef _CELL_TASK_H_
 #define _CELL_TASK_H_
 
 #include<thread>
 #include<mutex>
 #include<list>
+
 #include<functional>
-#include"CELLSemaphore.hpp"
 
-/*
-ÈÎÎñ·şÎñ¹ÜÀíÈÎÎñ---addTask(task)Ôö¼ÓÈÎÎñ,OnRun()µ÷ÓÃÈÎÎñÀà´¦ÀíÈÎÎñ
-*/
+#include"CELLThread.hpp"
 
-//Ö´ĞĞÈÎÎñµÄ·şÎñÀàĞÍ
-class CellTaskServer 
+//æ‰§è¡Œä»»åŠ¡çš„æœåŠ¡ç±»å‹
+class CELLTaskServer 
 {
 public:
-	//ËùÊôserverid
+	//æ‰€å±serverid
 	int serverId = -1;
 private:
-	//functionÌæ´úº¯ÊıÖ¸Õë
-	typedef std::function<void()> CellTask;
+	typedef std::function<void()> CELLTask;
 private:
-	//ÈÎÎñÊı¾İ
-	std::list<CellTask> _tasks;
-	//ÈÎÎñÊı¾İ»º³åÇø
-	std::list<CellTask> _tasksBuf;
-	//¸Ä±äÊı¾İ»º³åÇøÊ±ĞèÒª¼ÓËø
+	//ä»»åŠ¡æ•°æ®
+	std::list<CELLTask> _tasks;
+	//ä»»åŠ¡æ•°æ®ç¼“å†²åŒº
+	std::list<CELLTask> _tasksBuf;
+	//æ”¹å˜æ•°æ®ç¼“å†²åŒºæ—¶éœ€è¦åŠ é”
 	std::mutex _mutex;
 	//
-	bool	_isRun = false;
-	//
-	CELLSemaphore _sem;
+	CELLThread _thread;
 public:
-	//Ìí¼ÓÈÎÎñ
-	void addTask(CellTask task)
+	//æ·»åŠ ä»»åŠ¡
+	void addTask(CELLTask task)
 	{
 		std::lock_guard<std::mutex> lock(_mutex);
 		_tasksBuf.push_back(task);
 	}
-	//Æô¶¯¹¤×÷Ïß³Ì
+	//å¯åŠ¨å·¥ä½œçº¿ç¨‹
 	void Start()
 	{
-		_isRun = true;
-		//Ïß³Ì
-		std::thread t(std::mem_fn(&CellTaskServer::OnRun),this);
-		t.detach();
+		_thread.Start(nullptr, [this](CELLThread* pThread) {
+			OnRun(pThread);
+		});
 	}
+
 	void Close()
 	{
-		printf("CellTaskServer%d.Close begin\n", serverId);
-		if (_isRun)
-		{
-			_isRun = false;
-			_sem.wait();
-		}
-		printf("CellTaskServer%d.Close end\n", serverId);
+		///CELLLog::Info("CELLTaskServer%d.Close begin\n", serverId);
+		_thread.Close();
+		//CELLLog::Info("CELLTaskServer%d.Close end\n", serverId);
 	}
 protected:
-	//¹¤×÷º¯Êı
-	void OnRun()
+	//å·¥ä½œå‡½æ•°
+	void OnRun(CELLThread* pThread)
 	{
-		while (_isRun)
+		while (pThread->isRun())
 		{
-			//´Ó»º³åÇøÈ¡³öÊı¾İ
+			//ä»ç¼“å†²åŒºå–å‡ºæ•°æ®
 			if (!_tasksBuf.empty())
 			{
 				std::lock_guard<std::mutex> lock(_mutex);
@@ -72,23 +63,27 @@ protected:
 				}
 				_tasksBuf.clear();
 			}
-			//Èç¹ûÃ»ÓĞÈÎÎñ
+			//å¦‚æœæ²¡æœ‰ä»»åŠ¡
 			if (_tasks.empty())
 			{
 				std::chrono::milliseconds t(1);
 				std::this_thread::sleep_for(t);
 				continue;
 			}
-			//´¦ÀíÈÎÎñ
+			//å¤„ç†ä»»åŠ¡
 			for (auto pTask : _tasks)
 			{
 				pTask();
 			}
-			//Çå¿ÕÈÎÎñ
+			//æ¸…ç©ºä»»åŠ¡
 			_tasks.clear();
 		}
-		printf("CellTaskServer%d.OnRun exit\n", serverId);
-		_sem.wakeup();
+		//å¤„ç†ç¼“å†²é˜Ÿåˆ—ä¸­çš„ä»»åŠ¡
+		for (auto pTask : _tasksBuf)
+		{
+			pTask();
+		}
+		//CELLLog::Info("CELLTaskServer%d.OnRun exit\n", serverId);
 	}
 };
 #endif // !_CELL_TASK_H_
