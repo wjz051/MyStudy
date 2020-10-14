@@ -4,6 +4,13 @@
 #include"CELL.hpp"
 #include"CELLTask.hpp"
 #include<ctime>
+/*
+日志管理
+1.单例管理日志,多线程执行日志输出
+1.设置日志路径和读写模式setLogPath(logPath,mode)
+2.Info()静态函数输出日志
+
+*/
 class CELLLog
 {
 	//Info
@@ -88,6 +95,7 @@ public:
 				fprintf(pLog->_logFile, pformat, args...);
 				fflush(pLog->_logFile);
 			}
+			//输出到控制台
 			printf(pformat, args...);
 		});
 	}

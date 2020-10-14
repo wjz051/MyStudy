@@ -9,7 +9,20 @@
 //在间隔指定时间后
 //把发送缓冲区内缓存的消息数据发送给客户端
 #define CLIENT_SEND_BUFF_TIME 200
-//客户端数据类型
+//
+
+/*
+客户端数据类型
+
+1.包含心跳检测
+2.包含定时发送
+3.RecvData()读取数据,封装了CELLBuffer缓存类read4socket(SOCKET)函数
+4.hasMsg()判断是否有数据,封装了CELLBuffer缓存类hasMsg()函数
+
+5.SendData(netmsg_DataHeader*)发送消息,封装了CELLBuffer缓存类push(char*,int)函数
+6.SendDataReal()发送数据,封装了CELLBuffer缓存类write2socket(SOCKET)函数
+
+*/
 class CELLClient
 {
 public:
@@ -128,7 +141,7 @@ public:
 private:
 	// socket fd_set  file desc set
 	SOCKET _sockfd;
-	//第二缓冲区 接收消息缓冲区
+	//接收消息缓冲区
 	CELLBuffer _recvBuff;
 	//发送缓冲区
 	CELLBuffer _sendBuff;

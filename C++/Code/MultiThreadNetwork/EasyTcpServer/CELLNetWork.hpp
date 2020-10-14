@@ -2,7 +2,11 @@
 #define _CELL_NET_WORK_HPP_
 
 #include"CELL.hpp"
-
+/*
+网络初始化
+1.通过静态变量初始化
+2.程序关闭,自动析构
+*/
 class CELLNetWork
 {
 private:

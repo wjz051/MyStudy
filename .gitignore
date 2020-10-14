@@ -36,3 +36,4 @@
 *.user
 *build-*-Debug/
 *build-*-Release/
+*.vscode/

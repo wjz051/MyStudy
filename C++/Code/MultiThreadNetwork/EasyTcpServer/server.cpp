@@ -69,7 +69,7 @@ private:
 
 int main()
 {
-	CELLLog::Instance().setLogPath("serverLog.txt","w");
+	CELLLog::Instance().setLogPath("./x64/Debug/serverLog.txt","w");
 	MyServer server;
 	server.InitSocket();
 	server.Bind(nullptr, 4567);
@@ -92,9 +92,9 @@ int main()
 	}
 
 	CELLLog::Info("exit.\n");
-//#ifdef _WIN32
-//	while (true)
-//		Sleep(10);
-//#endif
+#ifdef _WIN32
+	while (true)
+		Sleep(10);
+#endif
 	return 0;
 }

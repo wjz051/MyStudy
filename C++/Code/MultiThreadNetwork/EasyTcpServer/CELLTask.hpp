@@ -9,7 +9,12 @@
 
 #include"CELLThread.hpp"
 
-//执行任务的服务类型
+/*
+执行任务的服务类
+1.Start()启动线程服务,设置线程运行中函数OnRun()
+2.addTask()添加执行任务,有任务缓冲区
+
+*/
 class CELLTaskServer 
 {
 public:
@@ -43,7 +48,7 @@ public:
 
 	void Close()
 	{
-		///CELLLog::Info("CELLTaskServer%d.Close begin\n", serverId);
+		//CELLLog::Info("CELLTaskServer%d.Close begin\n", serverId);
 		_thread.Close();
 		//CELLLog::Info("CELLTaskServer%d.Close end\n", serverId);
 	}

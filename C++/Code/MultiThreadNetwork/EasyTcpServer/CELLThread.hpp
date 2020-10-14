@@ -2,7 +2,16 @@
 #define _CELL_THREAD_HPP_
 
 #include"CELLSemaphore.hpp"
+/*
+封装std::thread线程类
 
+1.Start()设置三个回调函数onCreate/onRun/onDestory;
+2.std::thread启动线程运行函数OnWork(),分别运行开始处理函数,运行中处理函数,结束处理函数
+3.状态判断isRun();
+4.正常结束线程,不阻塞等待Exit();
+5.关闭线程,使用CELLSemaphore信号量阻塞等待线程结束,然后结束线程;
+
+*/
 class CELLThread
 {
 private:
