@@ -92,9 +92,9 @@ int main()
 	}
 
 	CELLLog::Info("exit.\n");
-#ifdef _WIN32
-	while (true)
-		Sleep(10);
-#endif
+//#ifdef _WIN32
+//	while (true)
+//		Sleep(10);
+//#endif
 	return 0;
 }
