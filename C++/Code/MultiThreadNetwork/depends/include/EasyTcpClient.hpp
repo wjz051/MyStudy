@@ -1,11 +1,19 @@
-ï»¿#ifndef _EasyTcpClient_hpp_
+#ifndef _EasyTcpClient_hpp_
 #define _EasyTcpClient_hpp_
 
 #include"CELL.hpp"
 #include"CELLNetWork.hpp"
 #include"MessageHeader.hpp"
 #include"CELLClient.hpp"
+/*
+¿Í»§¶Ë
 
+1.Connect(ip,port),Èç¹ûÃ»ÓĞ³õÊ¼»¯,ÏÈµ÷ÓÃInitSocket()³õÊ¼»¯SOCKET;
+2.¿Í»§¶ËÍ¨¹ıSendData(header,nLen)·¢ËÍÊı¾İ,Í¨¹ıOnRun()´¦ÀíÏûÏ¢;
+3.OnRun()¾ßÌåÊÇµ÷ÓÃRecvData(cSock)½ÓÊÕÊı¾İ,Í¨¹ıvirtual OnNetMsg(header)Ğéº¯Êı´¦ÀíÏûÏ¢;
+4.¹Ø±Õ¿Í»§¶Ëµ÷ÓÃclose()¹Ø±ÕÌ×½Ó×ÖÁ´½Ó;
+
+*/
 class EasyTcpClient
 {
 public:
@@ -18,7 +26,7 @@ public:
 	{
 		Close();
 	}
-	//åˆå§‹åŒ–socket
+	//³õÊ¼»¯socket
 	void InitSocket()
 	{
 		CELLNetWork::Init();
@@ -39,14 +47,14 @@ public:
 		}
 	}
 
-	//è¿æ¥æœåŠ¡å™¨
+	//Á¬½Ó·şÎñÆ÷
 	int Connect(const char* ip,unsigned short port)
 	{
 		if (!_pClient)
 		{
 			InitSocket();
 		}
-		// 2 è¿æ¥æœåŠ¡å™¨ connect
+		// 2 Á¬½Ó·şÎñÆ÷ connect
 		sockaddr_in _sin = {};
 		_sin.sin_family = AF_INET;
 		_sin.sin_port = htons(port);
@@ -68,7 +76,7 @@ public:
 		return ret;
 	}
 
-	//å…³é—­å¥—èŠ‚å­—closesocket
+	//¹Ø±ÕÌ×½Ú×Öclosesocket
 	void Close()
 	{
 		if (_pClient)
@@ -79,7 +87,7 @@ public:
 		_isConnect = false;
 	}
 
-	//å¤„ç†ç½‘ç»œæ¶ˆæ¯
+	//´¦ÀíÍøÂçÏûÏ¢
 	bool OnRun()
 	{
 		if (isRun())
@@ -134,35 +142,35 @@ public:
 		return false;
 	}
 
-	//æ˜¯å¦å·¥ä½œä¸­
+	//ÊÇ·ñ¹¤×÷ÖĞ
 	bool isRun()
 	{
 		return _pClient && _isConnect;
 	}
 
-	//æ¥æ”¶æ•°æ® å¤„ç†ç²˜åŒ… æ‹†åˆ†åŒ…
+	//½ÓÊÕÊı¾İ ´¦ÀíÕ³°ü ²ğ·Ö°ü
 	int RecvData(SOCKET cSock)
 	{
-		//æ¥æ”¶å®¢æˆ·ç«¯æ•°æ®
+		//½ÓÊÕ¿Í»§¶ËÊı¾İ
 		int nLen = _pClient->RecvData();
 		if (nLen > 0)
 		{
-			//å¾ªç¯ åˆ¤æ–­æ˜¯å¦æœ‰æ¶ˆæ¯éœ€è¦å¤„ç†
+			//Ñ­»· ÅĞ¶ÏÊÇ·ñÓĞÏûÏ¢ĞèÒª´¦Àí
 			while (_pClient->hasMsg())
 			{
-				//å¤„ç†ç½‘ç»œæ¶ˆæ¯
+				//´¦ÀíÍøÂçÏûÏ¢
 				OnNetMsg(_pClient->front_msg());
-				//ç§»é™¤æ¶ˆæ¯é˜Ÿåˆ—ï¼ˆç¼“å†²åŒºï¼‰æœ€å‰çš„ä¸€æ¡æ•°æ®
+				//ÒÆ³ıÏûÏ¢¶ÓÁĞ£¨»º³åÇø£©×îÇ°µÄÒ»ÌõÊı¾İ
 				_pClient->pop_front_msg();
 			}
 		}
 		return nLen;
 	}
 
-	//å“åº”ç½‘ç»œæ¶ˆæ¯
+	//ÏìÓ¦ÍøÂçÏûÏ¢
 	virtual void OnNetMsg(netmsg_DataHeader* header) = 0;
 
-	//å‘é€æ•°æ®
+	//·¢ËÍÊı¾İ
 	int SendData(netmsg_DataHeader* header)
 	{
 		return _pClient->SendData(header);

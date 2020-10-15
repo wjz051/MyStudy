@@ -2,7 +2,17 @@
 #define _CELL_BUFFER_HPP_
 
 #include"CELL.hpp"
+/*
+消息缓冲区
 
+1.read4socket(SOCKET)通过recv接收数据,当缓冲区满了,也无法接收数据
+2.hasMsg()判断缓冲区数据是否完整,如果完整则返回true
+3.如果存在缓存数据,则通过data输入,然后通过pop(int)删除读取出的数据
+
+4.push(char*,in)把发送数据放入缓冲区
+5.write2socket(SOCKET)通过send发送数据,当缓冲区满了,会记录满的次数
+
+*/
 class CELLBuffer
 {
 public:

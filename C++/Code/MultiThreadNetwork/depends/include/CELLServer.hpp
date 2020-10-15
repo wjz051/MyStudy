@@ -8,7 +8,20 @@
 
 #include<vector>
 #include<map>
+/*
+网络消息接收处理服务类
 
+1.初始化获取服务器SOCKET,主要用于,当子服务器关闭的时候,释放套接字SOCKET(感觉存在问题,多个子服务器会释放多次,而且感觉也不应该在这里释放);
+2.设置消息处理接口INetEvent,当需要处理数据的时候通过接口调用虚函数OnNetJoin/OnNetLeave/OnNetMsg/OnNetRecv;
+3.在线程中运行服务OnRun(),每一个子服务器都含有一个任务处理服务线程CellTaskServer;
+4.开始的时候std::map<SOCKET, CellClient*>集合为空,当TcpServer接受到客户端连接的时候,调用addClient(CellClient*),加入客户端才开始select获取消息
+5.如果有消息,调用ReadData(fd_set)读取数据,通过_pNetEvent->OnNetRecv发送接收到数据信号,处理沾包,通过_pNetEvent->OnNetMsg处理消息;
+5.1.RecvData(CellClient*)接收数据,通过
+6.TcpServer服务器按照消息分类,给子服务器分配任务,子服务器通过CellTaskServer服务,处理任务;
+7.如果接受到客户端退出消息,则调用_pNetEvent->OnNetLeave函数,并且删除客户端信息;
+8.客户端增加心跳检查功能,每次select处理数据后,检查客户端状态,如果大于一定等待时间,则关闭此客户端连接;
+
+*/
 //网络消息接收处理服务类
 class CELLServer
 {
@@ -100,8 +113,8 @@ public:
 			memcpy(&fdWrite, &_fdRead_bak, sizeof(fd_set));
 			//memcpy(&fdExc, &_fdRead_bak, sizeof(fd_set));
 
-			///nfds 是一个整数值 是指fd_set集合中所有描述符(socket)的范围，而不是数量
-			///既是所有文件描述符最大值+1 在Windows中这个参数可以写0
+			//nfds 是一个整数值 是指fd_set集合中所有描述符(socket)的范围，而不是数量
+			//既是所有文件描述符最大值+1 在Windows中这个参数可以写0
 			timeval t{ 0,1 };
 			int ret = select(_maxSock + 1, &fdRead, &fdWrite, nullptr, &t);
 			if (ret < 0)
@@ -236,7 +249,7 @@ public:
 	{
 		//接收客户端数据
 		int nLen = pClient->RecvData();
-		if (nLen <= 0)
+		if (nLen < 0)
 		{
 			return -1;
 		}

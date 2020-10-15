@@ -1,6 +1,19 @@
 ﻿#ifndef _MessageHeader_hpp_
 #define _MessageHeader_hpp_
 
+/*
+消息头
+
+netmsg_DataHeader数据头---cmd,len
+
+netmsg_DataHeader--netmsg_Login登陆
+netmsg_DataHeader--netmsg_LoginR登陆结果
+netmsg_DataHeader--netmsg_Logout退出
+netmsg_DataHeader--netmsg_LogoutR退出结果
+netmsg_DataHeader--netmsg_NewUserJoin新用户登陆
+
+*/
+
 enum CMD
 {
 	CMD_LOGIN,

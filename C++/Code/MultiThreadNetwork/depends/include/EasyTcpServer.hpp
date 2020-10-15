@@ -11,6 +11,20 @@
 #include<mutex>
 #include<atomic>
 
+/*
+TcpServer服务端---含有多台子服务器CellServer---每台服务器可以处理多个客户端CellClient连接
+
+继承INetEvent接口,重写OnNetJoin/OnNetLeave/OnNetMsg/OnNetRecv函数;
+
+1.InitSocket()初始化网络SOCKET,Bind(ip,port)绑定ip和端口,Listen(n)监听端口;
+2.Start(nCellServerCount)启动服务端程序,新建多个CellServer消息处理对象,每个CellServer消息对象可以处理多个客户端请求数据,
+  注册网络事件接受对象TcpServer,启动消息处理线程;
+3.线程CELLThread运行OnRun()处理网络消息,通过Accept()接受客户端连接请求消息;
+4.addClientToCellServer(CellClient*)将新客户端分配给客户数量最少的cellServer,加入客户端成功_clientCount+1,OnNetJoin(pClient);
+5.关闭socket套接字Close()
+
+*/
+
 class EasyTcpServer : public INetEvent
 {
 private:
@@ -102,7 +116,7 @@ public:
 	//监听端口号
 	int Listen(int n)
 	{
-		// 3 listen 监听网络端口
+		// 3 listen 监听网络端口,n是socket可以排队的最大连接个数
 		int ret = listen(_sock, n);
 		if (SOCKET_ERROR == ret)
 		{
@@ -231,8 +245,8 @@ private:
 			FD_ZERO(&fdRead);
 			//将描述符（socket）加入集合
 			FD_SET(_sock, &fdRead);
-			///nfds 是一个整数值 是指fd_set集合中所有描述符(socket)的范围，而不是数量
-			///既是所有文件描述符最大值+1 在Windows中这个参数可以写0
+			//nfds 是一个整数值 是指fd_set集合中所有描述符(socket)的范围，而不是数量
+			//既是所有文件描述符最大值+1 在Windows中这个参数可以写0
 			timeval t = { 0, 1};
 			int ret = select(_sock + 1, &fdRead, 0, 0, &t); //
 			if (ret < 0)
