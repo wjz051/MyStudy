@@ -1,4 +1,4 @@
-#ifndef _EasyTcpClient_hpp_
+ï»¿#ifndef _EasyTcpClient_hpp_
 #define _EasyTcpClient_hpp_
 
 #include"CELL.hpp"
@@ -6,12 +6,12 @@
 #include"MessageHeader.hpp"
 #include"CELLClient.hpp"
 /*
-¿Í»§¶Ë
+å®¢æˆ·ç«¯
 
-1.Connect(ip,port),Èç¹ûÃ»ÓÐ³õÊ¼»¯,ÏÈµ÷ÓÃInitSocket()³õÊ¼»¯SOCKET;
-2.¿Í»§¶ËÍ¨¹ýSendData(header,nLen)·¢ËÍÊý¾Ý,Í¨¹ýOnRun()´¦ÀíÏûÏ¢;
-3.OnRun()¾ßÌåÊÇµ÷ÓÃRecvData(cSock)½ÓÊÕÊý¾Ý,Í¨¹ývirtual OnNetMsg(header)Ðéº¯Êý´¦ÀíÏûÏ¢;
-4.¹Ø±Õ¿Í»§¶Ëµ÷ÓÃclose()¹Ø±ÕÌ×½Ó×ÖÁ´½Ó;
+1.Connect(ip,port),å¦‚æžœæ²¡æœ‰åˆå§‹åŒ–,å…ˆè°ƒç”¨InitSocket()åˆå§‹åŒ–SOCKET;
+2.å®¢æˆ·ç«¯é€šè¿‡SendData(header,nLen)å‘é€æ•°æ®,é€šè¿‡OnRun()å¤„ç†æ¶ˆæ¯;
+3.OnRun()å…·ä½“æ˜¯è°ƒç”¨RecvData(cSock)æŽ¥æ”¶æ•°æ®,é€šè¿‡virtual OnNetMsg(header)è™šå‡½æ•°å¤„ç†æ¶ˆæ¯;
+4.å…³é—­å®¢æˆ·ç«¯è°ƒç”¨close()å…³é—­å¥—æŽ¥å­—é“¾æŽ¥;
 
 */
 class EasyTcpClient
@@ -26,7 +26,7 @@ public:
 	{
 		Close();
 	}
-	//³õÊ¼»¯socket
+	//åˆå§‹åŒ–socket
 	void InitSocket()
 	{
 		CELLNetWork::Init();
@@ -47,14 +47,14 @@ public:
 		}
 	}
 
-	//Á¬½Ó·þÎñÆ÷
+	//è¿žæŽ¥æœåŠ¡å™¨
 	int Connect(const char* ip,unsigned short port)
 	{
 		if (!_pClient)
 		{
 			InitSocket();
 		}
-		// 2 Á¬½Ó·þÎñÆ÷ connect
+		// 2 è¿žæŽ¥æœåŠ¡å™¨ connect
 		sockaddr_in _sin = {};
 		_sin.sin_family = AF_INET;
 		_sin.sin_port = htons(port);
@@ -76,7 +76,7 @@ public:
 		return ret;
 	}
 
-	//¹Ø±ÕÌ×½Ú×Öclosesocket
+	//å…³é—­å¥—èŠ‚å­—closesocket
 	void Close()
 	{
 		if (_pClient)
@@ -87,7 +87,7 @@ public:
 		_isConnect = false;
 	}
 
-	//´¦ÀíÍøÂçÏûÏ¢
+	//å¤„ç†ç½‘ç»œæ¶ˆæ¯
 	bool OnRun()
 	{
 		if (isRun())
@@ -142,38 +142,51 @@ public:
 		return false;
 	}
 
-	//ÊÇ·ñ¹¤×÷ÖÐ
+	//æ˜¯å¦å·¥ä½œä¸­
 	bool isRun()
 	{
 		return _pClient && _isConnect;
 	}
 
-	//½ÓÊÕÊý¾Ý ´¦ÀíÕ³°ü ²ð·Ö°ü
+	//æŽ¥æ”¶æ•°æ® å¤„ç†ç²˜åŒ… æ‹†åˆ†åŒ…
 	int RecvData(SOCKET cSock)
 	{
-		//½ÓÊÕ¿Í»§¶ËÊý¾Ý
-		int nLen = _pClient->RecvData();
-		if (nLen > 0)
+		if (isRun())
 		{
-			//Ñ­»· ÅÐ¶ÏÊÇ·ñÓÐÏûÏ¢ÐèÒª´¦Àí
-			while (_pClient->hasMsg())
+			//æŽ¥æ”¶å®¢æˆ·ç«¯æ•°æ®
+			int nLen = _pClient->RecvData();
+			if (nLen > 0)
 			{
-				//´¦ÀíÍøÂçÏûÏ¢
-				OnNetMsg(_pClient->front_msg());
-				//ÒÆ³ýÏûÏ¢¶ÓÁÐ£¨»º³åÇø£©×îÇ°µÄÒ»ÌõÊý¾Ý
-				_pClient->pop_front_msg();
+				//å¾ªçŽ¯ åˆ¤æ–­æ˜¯å¦æœ‰æ¶ˆæ¯éœ€è¦å¤„ç†
+				while (_pClient->hasMsg())
+				{
+					//å¤„ç†ç½‘ç»œæ¶ˆæ¯
+					OnNetMsg(_pClient->front_msg());
+					//ç§»é™¤æ¶ˆæ¯é˜Ÿåˆ—ï¼ˆç¼“å†²åŒºï¼‰æœ€å‰çš„ä¸€æ¡æ•°æ®
+					_pClient->pop_front_msg();
+				}
 			}
+			return nLen;
 		}
-		return nLen;
+		return 0;
 	}
 
-	//ÏìÓ¦ÍøÂçÏûÏ¢
+	//å“åº”ç½‘ç»œæ¶ˆæ¯
 	virtual void OnNetMsg(netmsg_DataHeader* header) = 0;
 
-	//·¢ËÍÊý¾Ý
+	//å‘é€æ•°æ®
 	int SendData(netmsg_DataHeader* header)
 	{
-		return _pClient->SendData(header);
+		if(isRun())
+			return _pClient->SendData(header);
+		return 0;
+	}
+
+	int SendData(const char* pData, int len)
+	{
+		if (isRun())
+			return _pClient->SendData(pData, len);
+		return 0;
 	}
 protected:
 	CELLClient* _pClient = nullptr;

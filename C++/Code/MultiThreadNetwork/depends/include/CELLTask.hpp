@@ -48,7 +48,7 @@ public:
 
 	void Close()
 	{
-		//CELLLog::Info("CELLTaskServer%d.Close begin\n", serverId);
+		///CELLLog::Info("CELLTaskServer%d.Close begin\n", serverId);
 		_thread.Close();
 		//CELLLog::Info("CELLTaskServer%d.Close end\n", serverId);
 	}

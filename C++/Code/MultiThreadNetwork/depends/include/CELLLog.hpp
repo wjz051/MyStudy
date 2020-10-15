@@ -95,7 +95,6 @@ public:
 				fprintf(pLog->_logFile, pformat, args...);
 				fflush(pLog->_logFile);
 			}
-			//输出到控制台
 			printf(pformat, args...);
 		});
 	}

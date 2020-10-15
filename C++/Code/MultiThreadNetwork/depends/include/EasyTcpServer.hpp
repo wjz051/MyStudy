@@ -245,8 +245,8 @@ private:
 			FD_ZERO(&fdRead);
 			//将描述符（socket）加入集合
 			FD_SET(_sock, &fdRead);
-			//nfds 是一个整数值 是指fd_set集合中所有描述符(socket)的范围，而不是数量
-			//既是所有文件描述符最大值+1 在Windows中这个参数可以写0
+			///nfds 是一个整数值 是指fd_set集合中所有描述符(socket)的范围，而不是数量
+			///既是所有文件描述符最大值+1 在Windows中这个参数可以写0
 			timeval t = { 0, 1};
 			int ret = select(_sock + 1, &fdRead, 0, 0, &t); //
 			if (ret < 0)

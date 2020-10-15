@@ -1,31 +1,73 @@
-#define WIN32_LEAN_AND_MEAN
+#include"EasyTcpClient.hpp"
+#include"CELLStream.hpp"
+#include"CELLMsgStream.hpp"
 
-#include<windows.h>
-#include<WinSock2.h>
+class MyClient : public EasyTcpClient
+{
+public:
+	//响应网络消息
+	virtual void OnNetMsg(netmsg_DataHeader* header)
+	{
+		switch (header->cmd)
+		{
+		case CMD_LOGOUT_RESULT:
+		{
+			CELLRecvStream r(header);
+			auto n1 = r.ReadInt8();
+			auto n2 = r.ReadInt16();
+			auto n3 = r.ReadInt32();
+			auto n4 = r.ReadFloat();
+			auto n5 = r.ReadDouble();
+			uint32_t n = 0;
+			r.onlyRead(n);
+			char name[32] = {};
+			auto n6 = r.ReadArray(name, 32);
+			char pw[32] = {};
+			auto n7 = r.ReadArray(pw, 32);
+			int ata[10] = {};
+			auto n8 = r.ReadArray(ata, 10);
+			CELLLog::Info("<socket=%d> recv msgType：CMD_LOGOUT_RESULT\n", (int)_pClient->sockfd());
+		}
+		break;
+		case CMD_ERROR:
+		{
+			CELLLog::Info("<socket=%d> recv msgType：CMD_ERROR\n", (int)_pClient->sockfd());
+		}
+		break;
+		default:
+		{
+			CELLLog::Info("error, <socket=%d> recv undefine msgType\n", (int)_pClient->sockfd());
+		}
+		}
+	}
+private:
 
-//#pragma comment(lib,"ws2_32.lib")
+};
 
 int main()
 {
-	//启动Windows socket 2.x环境
-	WORD ver = MAKEWORD(2,2);
-	WSADATA dat;
-	WSAStartup(ver, &dat);
-	//------------
-	//-- 用Socket API建立简易TCP客户端
-	// 1 建立一个socket
-	// 2 连接服务器 connect
-	// 3 接收服务器信息 recv
-	// 4 关闭套节字closesocket
-	//-- 用Socket API建立简易TCP服务端
-	// 1 建立一个socket
-	// 2 bind 绑定用于接受客户端连接的网络端口
-	// 3 listen 监听网络端口
-	// 4 accept 等待接受客户端连接
-	// 5 send 向客户端发送一条数据
-	// 6 关闭套节字closesocket
-	//------------
-	//清除Windows socket环境
-	WSACleanup();
+	CELLSendStream s(128);
+	s.setNetCmd(CMD_LOGOUT);
+	s.WriteInt8(1);
+	s.WriteInt16(2);
+	s.WriteInt32(3);
+	s.WriteFloat(4.5f);
+	s.WriteDouble(6.7);
+	s.WriteString("client");
+	char a[] = "ahah";
+	s.WriteArray(a, strlen(a));
+	int b[] = {1,2,3,4,5};
+	s.WriteArray(b, 5);
+	s.finsh();
+	MyClient client;
+	client.Connect("192.168.1.102", 4567);
+
+	
+	while (client.isRun())
+	{
+		client.OnRun();
+		client.SendData(s.data(), s.length());
+		CELLThread::Sleep(10);
+	}
 	return 0;
 }

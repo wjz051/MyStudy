@@ -99,9 +99,14 @@ public:
 	//发送数据
 	int SendData(netmsg_DataHeader* header)
 	{
-		if (_sendBuff.push((const char*)header, header->dataLength))
+		return SendData((const char*)header, header->dataLength);
+	}
+
+	int SendData(const char* pData, int len)
+	{
+		if (_sendBuff.push(pData, len))
 		{
-			return header->dataLength;
+			return len;
 		}
 		return SOCKET_ERROR;
 	}
@@ -146,7 +151,7 @@ public:
 private:
 	// socket fd_set  file desc set
 	SOCKET _sockfd;
-	//接收消息缓冲区
+	//第二缓冲区 接收消息缓冲区
 	CELLBuffer _recvBuff;
 	//发送缓冲区
 	CELLBuffer _sendBuff;
