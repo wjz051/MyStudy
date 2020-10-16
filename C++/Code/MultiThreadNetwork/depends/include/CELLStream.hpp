@@ -1,6 +1,7 @@
 ﻿#ifndef _CELL_STREAM_HPP_
 #define _CELL_STREAM_HPP_
 
+#include"CELLLog.hpp"
 #include<cstdint>
 
 //字节流BYTE
@@ -87,7 +88,9 @@ public:
 				pop(nLen);
 			return true;
 		}
-		//
+		//断言assert
+		//错误日志
+		CELLLog::Info("error, CELLStream::Read failed.");
 		return false;
 	}
 
@@ -120,6 +123,7 @@ public:
 				return len1;
 			}
 		}
+		CELLLog::Info("error, CELLStream::ReadArray failed.");
 		return 0;
 	}
 
@@ -141,6 +145,37 @@ public:
 		Read(n);
 		return n;
 	}
+
+	int64_t ReadInt64(int64_t n = 0)
+	{
+		Read(n);
+		return n;
+	}
+
+	uint8_t ReadUInt8(uint8_t def = 0)
+	{
+		Read(def);
+		return def;
+	}
+	//short
+	uint16_t ReadUInt16(uint16_t n = 0)
+	{
+		Read(n);
+		return n;
+	}
+	//int
+	uint32_t ReadUInt32(uint32_t n = 0)
+	{
+		Read(n);
+		return n;
+	}
+
+	uint64_t ReadUInt64(uint64_t n = 0)
+	{
+		Read(n);
+		return n;
+	}
+
 	float ReadFloat(float n = 0.0f)
 	{
 		Read(n);
@@ -166,6 +201,7 @@ public:
 			push(nLen);
 			return true;
 		}
+		CELLLog::Info("error, CELLStream::Write failed.");
 		return false;
 	}
 	template<typename T>
@@ -184,6 +220,7 @@ public:
 			push(nLen);
 			return true;
 		}
+		CELLLog::Info("error, CELLStream::WriteArray failed.");
 		return false;
 	}
 

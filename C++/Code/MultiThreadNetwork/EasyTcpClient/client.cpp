@@ -155,7 +155,7 @@ void sendThread(int id)
 
 int main()
 {
-	CELLLog::Instance().setLogPath("clientLog.txt", "w");
+	CELLLog::Instance().setLogPath("../x64/clientLog.txt", "w");
 	//启动UI线程
 	std::thread t1(cmdThread);
 	t1.detach();

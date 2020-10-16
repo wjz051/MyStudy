@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{5779C6F7-6005-4B88-9BFA-321FDCB0BAFB}</ProjectGuid>
+    <ProjectGuid>{03ACB195-D128-43FB-8AE7-3D7BFBC30414}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
     <RootNamespace>EasyTcpServer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -29,27 +29,27 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -71,23 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)../bin/$(Platform)/$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)../temp/$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
+    <OutDir>../$(Platform)/$(Configuration)</OutDir>
+    <IntDir>../$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)../bin/$(Platform)/$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)../temp/$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
+    <OutDir>../$(Platform)/$(Configuration)</OutDir>
+    <IntDir>../$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)../bin/$(Platform)/$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)../temp/$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
+    <OutDir>../$(Platform)/$(Configuration)</OutDir>
+    <IntDir>../$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)../bin/$(Platform)/$(Configuration)</OutDir>
-    <IntDir>$(SolutionDir)../temp/$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
+    <OutDir>../$(Platform)/$(Configuration)</OutDir>
+    <IntDir>../$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -159,6 +159,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="server.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\depends\include\CELL.hpp" />
+    <ClInclude Include="..\depends\include\CELLBuffer.hpp" />
+    <ClInclude Include="..\depends\include\CELLClient.hpp" />
+    <ClInclude Include="..\depends\include\CELLLog.hpp" />
+    <ClInclude Include="..\depends\include\CELLMsgStream.hpp" />
+    <ClInclude Include="..\depends\include\CELLNetWork.hpp" />
+    <ClInclude Include="..\depends\include\CELLSemaphore.hpp" />
+    <ClInclude Include="..\depends\include\CELLServer.hpp" />
+    <ClInclude Include="..\depends\include\CELLStream.hpp" />
+    <ClInclude Include="..\depends\include\CELLTask.hpp" />
+    <ClInclude Include="..\depends\include\CELLThread.hpp" />
+    <ClInclude Include="..\depends\include\CELLTimestamp.hpp" />
+    <ClInclude Include="..\depends\include\EasyTcpClient.hpp" />
+    <ClInclude Include="..\depends\include\EasyTcpServer.hpp" />
+    <ClInclude Include="..\depends\include\INetEvent.hpp" />
+    <ClInclude Include="..\depends\include\MessageHeader.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

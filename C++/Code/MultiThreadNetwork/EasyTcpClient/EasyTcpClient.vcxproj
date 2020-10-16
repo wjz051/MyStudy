@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{78D17CA4-5DD9-4C77-8059-4743212AD868}</ProjectGuid>
+    <ProjectGuid>{BDBAE473-3BE3-463E-BDBD-4E19BBB58469}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
     <RootNamespace>EasyTcpClient</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -29,27 +29,27 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -71,23 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(SolutionDir)../temp/$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
-    <OutDir>$(SolutionDir)../bin/$(Platform)/$(Configuration)</OutDir>
+    <IntDir>../$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
+    <OutDir>../$(Platform)/$(Configuration)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(SolutionDir)../temp/$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
-    <OutDir>$(SolutionDir)../bin/$(Platform)/$(Configuration)</OutDir>
+    <IntDir>../$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
+    <OutDir>../$(Platform)/$(Configuration)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IntDir>$(SolutionDir)../temp/$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
-    <OutDir>$(SolutionDir)../bin/$(Platform)/$(Configuration)</OutDir>
+    <IntDir>../$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
+    <OutDir>../$(Platform)/$(Configuration)</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IntDir>$(SolutionDir)../temp/$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
-    <OutDir>$(SolutionDir)../bin/$(Platform)/$(Configuration)</OutDir>
+    <IntDir>../$(Platform)/$(Configuration)/$(ProjectName)</IntDir>
+    <OutDir>../$(Platform)/$(Configuration)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

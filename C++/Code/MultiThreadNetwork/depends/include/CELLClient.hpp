@@ -30,9 +30,9 @@ public:
 	//所属serverid
 	int serverId = -1;
 public:
-	CELLClient(SOCKET sockfd = INVALID_SOCKET):
-		_sendBuff(SEND_BUFF_SZIE),
-		_recvBuff(RECV_BUFF_SZIE)
+	CELLClient(SOCKET sockfd = INVALID_SOCKET, int sendSize = SEND_BUFF_SZIE, int recvSize = RECV_BUFF_SZIE):
+		_sendBuff(sendSize),
+		_recvBuff(recvSize)
 	{
 		static int n = 1;
 		id = n++;

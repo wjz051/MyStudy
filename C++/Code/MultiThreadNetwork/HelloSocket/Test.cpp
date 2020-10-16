@@ -12,7 +12,11 @@ public:
 		{
 		case CMD_LOGOUT_RESULT:
 		{
-			CELLRecvStream r(header);
+			CELLReadStream r(header);
+			//读取消息长度
+			r.ReadInt16();
+			//读取消息命令
+			r.getNetCmd();
 			auto n1 = r.ReadInt8();
 			auto n2 = r.ReadInt16();
 			auto n3 = r.ReadInt32();
@@ -46,7 +50,7 @@ private:
 
 int main()
 {
-	CELLSendStream s(128);
+	CELLWriteStream s(128);
 	s.setNetCmd(CMD_LOGOUT);
 	s.WriteInt8(1);
 	s.WriteInt16(2);
@@ -63,9 +67,8 @@ int main()
 	client.Connect("192.168.1.102", 4567);
 
 	
-	while (client.isRun())
+	while (client.OnRun())
 	{
-		client.OnRun();
 		client.SendData(s.data(), s.length());
 		CELLThread::Sleep(10);
 	}

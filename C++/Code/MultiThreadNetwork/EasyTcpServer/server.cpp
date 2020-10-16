@@ -43,7 +43,11 @@ public:
 		break;
 		case CMD_LOGOUT:
 		{
-			CELLRecvStream r(header);
+			CELLReadStream r(header);
+			//读取消息长度
+			r.ReadInt16();
+			//读取消息命令
+			r.getNetCmd();
 			auto n1 = r.ReadInt8();
 			auto n2 = r.ReadInt16();
 			auto n3 = r.ReadInt32();
@@ -58,19 +62,16 @@ public:
 			int ata[10] = {};
 			auto n8 = r.ReadArray(ata, 10);
 			///
-			CELLSendStream s(128);
+			CELLWriteStream s(128);
 			s.setNetCmd(CMD_LOGOUT_RESULT);
-			s.WriteInt8(1);
-			s.WriteInt16(2);
-			s.WriteInt32(3);
-			s.WriteFloat(4.5f);
-			s.WriteDouble(6.7);
-			char* str = "sever";
-			s.WriteArray(str, strlen(str));
-			char a[] = "ahah";
-			s.WriteArray(a, strlen(a));
-			int b[] = { 1,2,3,4,5 };
-			s.WriteArray(b, 5);
+			s.WriteInt8(n1);
+			s.WriteInt16(n2);
+			s.WriteInt32(n3);
+			s.WriteFloat(n4);
+			s.WriteDouble(n5);
+			s.WriteArray(name, n6);
+			s.WriteArray(pw, n7);
+			s.WriteArray(ata, n8);
 			s.finsh();
 			pClient->SendData(s.data(), s.length());
 		}
@@ -94,7 +95,7 @@ private:
 
 int main()
 {
-	CELLLog::Instance().setLogPath("./x64/Debug/serverLog.txt","w");
+	CELLLog::Instance().setLogPath("../x64/serverLog.txt","w");
 	MyServer server;
 	server.InitSocket();
 	server.Bind(nullptr, 4567);
