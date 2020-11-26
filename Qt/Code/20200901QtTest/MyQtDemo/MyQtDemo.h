@@ -15,6 +15,9 @@ public:
     explicit MyQtDemo(QWidget *parent = 0);
     ~MyQtDemo();
 
+public slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::MyQtDemo *ui;
 };

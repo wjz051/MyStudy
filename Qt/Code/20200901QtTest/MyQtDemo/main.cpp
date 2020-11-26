@@ -334,12 +334,12 @@ void test15()
 
 int main(int argc, char *argv[])
 {
-//    QApplication a(argc, argv);
-//    MyQtDemo w;
-//    w.show();
-//    return a.exec();
+    QApplication a(argc, argv);
+    MyQtDemo w;
+    w.show();
+    return a.exec();
 
-    test15();
-    return 0;
+//    test15();
+//    return 0;
 }
 

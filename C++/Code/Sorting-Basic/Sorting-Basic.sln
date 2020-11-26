@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01-Selection-Sort", "01-Selection-Sort\01-Selection-Sort.vcxproj", "{5641DA04-5915-4E97-B273-C812E79D2F5C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02-Selection-Sort-Using-Template", "02-Selection-Sort-Using-Template\02-Selection-Sort-Using-Template.vcxproj", "{0071466D-5005-4869-902B-3DEA6A1B9181}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03-Selection-Sort-Generate-Test-Cases", "03-Selection-Sort-Generate-Test-Cases\03-Selection-Sort-Generate-Test-Cases.vcxproj", "{FD60BA74-FF3C-40C1-9814-4DE1F27DBEA6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "04-Selection-Sort-Detect-Performance", "04-Selection-Sort-Detect-Performance\04-Selection-Sort-Detect-Performance.vcxproj", "{CDF891F9-6630-423F-B149-28A48BBBE90B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "05-Insertion-Sort", "05-Insertion-Sort\05-Insertion-Sort.vcxproj", "{2F6BF1C7-130D-416F-BE91-D704FB0401AE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "06-Insertion-Sort-Advance", "06-Insertion-Sort-Advance\06-Insertion-Sort-Advance.vcxproj", "{9020F555-6D41-4D88-A296-78DCDB27ECB2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SortAlgorithms", "SortAlgorithms\SortAlgorithms.vcxproj", "{706E3C2F-FE4B-42EC-91F5-C97409E49083}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5641DA04-5915-4E97-B273-C812E79D2F5C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5641DA04-5915-4E97-B273-C812E79D2F5C}.Debug|Win32.Build.0 = Debug|Win32
+		{5641DA04-5915-4E97-B273-C812E79D2F5C}.Release|Win32.ActiveCfg = Release|Win32
+		{5641DA04-5915-4E97-B273-C812E79D2F5C}.Release|Win32.Build.0 = Release|Win32
+		{0071466D-5005-4869-902B-3DEA6A1B9181}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0071466D-5005-4869-902B-3DEA6A1B9181}.Debug|Win32.Build.0 = Debug|Win32
+		{0071466D-5005-4869-902B-3DEA6A1B9181}.Release|Win32.ActiveCfg = Release|Win32
+		{0071466D-5005-4869-902B-3DEA6A1B9181}.Release|Win32.Build.0 = Release|Win32
+		{FD60BA74-FF3C-40C1-9814-4DE1F27DBEA6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FD60BA74-FF3C-40C1-9814-4DE1F27DBEA6}.Debug|Win32.Build.0 = Debug|Win32
+		{FD60BA74-FF3C-40C1-9814-4DE1F27DBEA6}.Release|Win32.ActiveCfg = Release|Win32
+		{FD60BA74-FF3C-40C1-9814-4DE1F27DBEA6}.Release|Win32.Build.0 = Release|Win32
+		{CDF891F9-6630-423F-B149-28A48BBBE90B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CDF891F9-6630-423F-B149-28A48BBBE90B}.Debug|Win32.Build.0 = Debug|Win32
+		{CDF891F9-6630-423F-B149-28A48BBBE90B}.Release|Win32.ActiveCfg = Release|Win32
+		{CDF891F9-6630-423F-B149-28A48BBBE90B}.Release|Win32.Build.0 = Release|Win32
+		{2F6BF1C7-130D-416F-BE91-D704FB0401AE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2F6BF1C7-130D-416F-BE91-D704FB0401AE}.Debug|Win32.Build.0 = Debug|Win32
+		{2F6BF1C7-130D-416F-BE91-D704FB0401AE}.Release|Win32.ActiveCfg = Release|Win32
+		{2F6BF1C7-130D-416F-BE91-D704FB0401AE}.Release|Win32.Build.0 = Release|Win32
+		{9020F555-6D41-4D88-A296-78DCDB27ECB2}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9020F555-6D41-4D88-A296-78DCDB27ECB2}.Debug|Win32.Build.0 = Debug|Win32
+		{9020F555-6D41-4D88-A296-78DCDB27ECB2}.Release|Win32.ActiveCfg = Release|Win32
+		{9020F555-6D41-4D88-A296-78DCDB27ECB2}.Release|Win32.Build.0 = Release|Win32
+		{706E3C2F-FE4B-42EC-91F5-C97409E49083}.Debug|Win32.ActiveCfg = Debug|Win32
+		{706E3C2F-FE4B-42EC-91F5-C97409E49083}.Debug|Win32.Build.0 = Debug|Win32
+		{706E3C2F-FE4B-42EC-91F5-C97409E49083}.Release|Win32.ActiveCfg = Release|Win32
+		{706E3C2F-FE4B-42EC-91F5-C97409E49083}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C5E41271-2555-46D8-843D-E0D886B055A3}
+	EndGlobalSection
+EndGlobal

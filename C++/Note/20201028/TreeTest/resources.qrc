@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/collpase.png</file>
+        <file>images/expand.png</file>
+        <file>images/sortascend.png</file>
+        <file>images/sortdescend.png</file>
+        <file>images/tree.png</file>
+        <file>tree.ico</file>
+        <file>zh_CN.qm</file>
+        <file>qt_zh_CN.qm</file>
+    </qresource>
+</RCC>

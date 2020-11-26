@@ -34,6 +34,11 @@
 
 # Qt
 *.user
+*.suo
 *build-*-Debug/
 *build-*-Release/
 *.vscode/
+*.vs/
+*Debug/
+*Release/
+*x64/
