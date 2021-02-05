@@ -1,6 +1,7 @@
 #include "MyQtDemo.h"
 #include "ListFile.h"
 #include <QApplication>
+#include <iostream>
 
 extern "C"
 {
@@ -332,14 +333,25 @@ void test15()
     printf("sum=%d\n",sum);
 }
 
+//split
+void test16()
+{
+    QString str="0,1,2";
+    QStringList list=str.split(",");
+    list.prepend("8");
+    QStringList tmp=str.split(";");
+    std::cout<<tmp.size()<<std::endl;
+
+}
+
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MyQtDemo w;
-    w.show();
-    return a.exec();
+//    QApplication a(argc, argv);
+//    MyQtDemo w;
+//    w.show();
+//    return a.exec();
 
-//    test15();
-//    return 0;
+    test16();
+    return 0;
 }
 

@@ -1,0 +1,2 @@
+start pageant.exe C:/Users/WJZ/.ssh/PuTTyKey.ppk
+exit
