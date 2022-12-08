@@ -82,9 +82,9 @@ GitHub远程仓库
  SSH登录
 	进入当前用户的家目录：cd ~
 	删除.ssh目录：rm -rvf .ssh
-	运行命令生成.ssh密钥目录：ssh-keygen -t rsa -C 422358883@qq.com
+	运行命令生成.ssh密钥目录：ssh-keygen -t ed25519 -C 422358883@qq.com
 	进入.ssh目录，查看文件列表：cd .ssh  ls -lF
-	查看id_rsa.pub文件内容：cat id_rsa.pub
+	查看id_ed25519.pub文件内容：cat id_ed25519.pub
 	复制内容，登录GitHub，输入密钥信息。
 	回到Git bash 创建远程仓库地址别名：git remote add origin_ssh [远程库地址]
 
